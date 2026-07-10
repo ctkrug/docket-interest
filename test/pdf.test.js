@@ -89,3 +89,18 @@ test("breaks to a second page as soon as content exceeds one page, not only for 
   );
   assert.equal(doc.internal.getNumberOfPages(), 2);
 });
+
+test("paginates on an overlong address block alone, the field most likely to actually be long", () => {
+  // Unlike names, a real debtor mailing address (department, suite, multi-line
+  // corporate address) is the field most plausibly long in genuine use, so it
+  // gets its own isolated boundary case rather than only being exercised
+  // combined with pathologically long names.
+  const longAddress = Array.from(
+    { length: 40 },
+    (_, i) => `Suite ${i} Very Long Accounts Receivable Processing Department Building`,
+  ).join("\n");
+  const doc = generateDemandLetterPdf(
+    buildDemandLetter({ ...BASE, caseNumber: "", courtName: "", addressBlock: longAddress }),
+  );
+  assert.equal(doc.internal.getNumberOfPages(), 2);
+});
