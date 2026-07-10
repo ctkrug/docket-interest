@@ -24,7 +24,7 @@ get a statute-correct running total — plus a demand letter ready to print and 
 4. Click one button. Get a formatted, ready-to-mail demand letter PDF with the full accrual
    shown on the page.
 
-## Planned features
+## Features
 
 - A sourced data table of post-judgment interest rules for all 50 states + DC: rate (or rate
   formula), simple vs. compound, and the governing statute citation.
