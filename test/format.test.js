@@ -8,6 +8,14 @@ test("formatCurrency renders USD with cents and thousands separators", () => {
   assert.equal(formatCurrency(1234.5), "$1,234.50");
 });
 
+test("formatCurrency renders a negative amount with a leading sign, not a stray minus on the digits", () => {
+  // calculateJudgmentInterest's own guards keep negative amounts out of the
+  // live app, but formatCurrency is an exported, reusable pure utility and
+  // its behavior on the input it wasn't designed for should still be pinned.
+  assert.equal(formatCurrency(-500), "-$500.00");
+  assert.equal(formatCurrency(-1234.5), "-$1,234.50");
+});
+
 test("formatDays pluralizes correctly", () => {
   assert.equal(formatDays(1), "1 day");
   assert.equal(formatDays(0), "0 days");
