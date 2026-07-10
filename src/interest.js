@@ -71,3 +71,13 @@ export function calculateJudgmentInterest({
   const compute = method === "compound" ? compoundInterest : simpleInterest;
   return compute({ principal, rate, startDate, endDate });
 }
+
+/**
+ * The current day's accrual rate in dollars, shown next to the running
+ * total so a reader can see how fast it's moving. Uses the original
+ * principal even for compounding states, matching the simple-interest
+ * daily rate that applies within the current compounding year.
+ */
+export function perDiemAmount({ principal, rate }) {
+  return (principal * (rate / 100)) / DAYS_PER_YEAR;
+}
