@@ -7,6 +7,9 @@ const LETTER_FIELD_IDS = ["creditor-name", "debtor-name", "case-number", "court-
 const ERROR_KEY_BY_FIELD = {
   "creditor-name": "creditorName",
   "debtor-name": "debtorName",
+  "case-number": "caseNumber",
+  "court-name": "courtName",
+  "address-block": "addressBlock",
 };
 
 /**
