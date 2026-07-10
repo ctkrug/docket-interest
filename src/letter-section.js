@@ -83,6 +83,23 @@ export function mountLetterSection(mount, app) {
       .join("");
   }
 
+  /**
+   * Clears/updates only errors already showing, as the user types — never
+   * introduces a new error on a field they haven't tried to submit yet
+   * (matches app.js's don't-show-until-touched philosophy). Without this, a
+   * field the user just fixed stayed marked invalid until the next click.
+   */
+  function reviseShownErrors() {
+    const { errors } = validateLetterFields(letterFieldValues());
+    for (const id of Object.keys(ERROR_KEY_BY_FIELD)) {
+      const errorEl = document.getElementById(`${id}-error`);
+      if (!errorEl.textContent) continue;
+      const message = errors[ERROR_KEY_BY_FIELD[id]] || "";
+      errorEl.textContent = message;
+      document.getElementById(`field-${id}`).classList.toggle("field--invalid", Boolean(message));
+    }
+  }
+
   function refresh() {
     const result = app.getLatestResult();
     if (!result) {
@@ -96,7 +113,10 @@ export function mountLetterSection(mount, app) {
   }
 
   for (const id of LETTER_FIELD_IDS) {
-    els[id].addEventListener("input", renderPreview);
+    els[id].addEventListener("input", () => {
+      renderPreview();
+      reviseShownErrors();
+    });
   }
 
   els.generateBtn.addEventListener("click", () => {
