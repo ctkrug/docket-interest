@@ -1,6 +1,32 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { validateInputs, validateLetterFields } from "../src/validate.js";
+import {
+  validateInputs,
+  validateLetterFields,
+  hasUnsupportedPdfCharacters,
+} from "../src/validate.js";
+
+test("hasUnsupportedPdfCharacters accepts plain ASCII", () => {
+  assert.equal(hasUnsupportedPdfCharacters("Jane Creditor LLC"), false);
+});
+
+test("hasUnsupportedPdfCharacters accepts Latin-1 diacritics common in US legal names", () => {
+  assert.equal(hasUnsupportedPdfCharacters("Müller & Søren Ñoño"), false);
+});
+
+test("hasUnsupportedPdfCharacters accepts WinAnsi typographic punctuation", () => {
+  // Smart quotes and an em dash both map to defined Windows-1252 bytes.
+  assert.equal(hasUnsupportedPdfCharacters("O’Connor — Café"), false);
+});
+
+test("hasUnsupportedPdfCharacters rejects CJK text", () => {
+  assert.equal(hasUnsupportedPdfCharacters("北京有限公司"), true);
+});
+
+test("hasUnsupportedPdfCharacters rejects Cyrillic and emoji", () => {
+  assert.equal(hasUnsupportedPdfCharacters("Петров"), true);
+  assert.equal(hasUnsupportedPdfCharacters("Jane 😀"), true);
+});
 
 const VALID = {
   stateCode: "KY",
