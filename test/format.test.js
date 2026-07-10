@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { formatCurrency, formatDays } from "../src/format.js";
+import { formatCurrency, formatDays, formatDateLong } from "../src/format.js";
 
 test("formatCurrency renders USD with cents and thousands separators", () => {
   assert.equal(formatCurrency(10900), "$10,900.00");
@@ -12,4 +12,14 @@ test("formatDays pluralizes correctly", () => {
   assert.equal(formatDays(1), "1 day");
   assert.equal(formatDays(0), "0 days");
   assert.equal(formatDays(365), "365 days");
+});
+
+test("formatDateLong renders an ISO date as a long-form US date", () => {
+  assert.equal(formatDateLong("2026-01-01"), "January 1, 2026");
+  assert.equal(formatDateLong("2026-12-31"), "December 31, 2026");
+});
+
+test("formatDateLong is stable regardless of host timezone (parsed at UTC)", () => {
+  // A date that would roll to the previous/next day under a naive local-time parse.
+  assert.equal(formatDateLong("2026-03-01"), "March 1, 2026");
 });
