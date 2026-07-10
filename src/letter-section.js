@@ -106,7 +106,12 @@ export function mountLetterSection(mount, app) {
     const fields = letterFieldValues();
     const { valid, errors } = validateLetterFields(fields);
     paintFieldErrors(errors);
-    if (!valid) return;
+    if (!valid) {
+      // Clear a leftover "downloaded" message from an earlier successful
+      // attempt so a failed retry can't be mistaken for a new download.
+      els.downloadStatus.textContent = "";
+      return;
+    }
 
     const paragraphs = currentParagraphs();
     const doc = generateDemandLetterPdf(paragraphs);
