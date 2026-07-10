@@ -72,3 +72,20 @@ test("spills onto additional pages instead of losing content when input is patho
     "expected pagination for content that cannot fit on one page at any candidate font size",
   );
 });
+
+test("breaks to a second page as soon as content exceeds one page, not only for extreme overflow", () => {
+  // Calibrated to land just past the one-page budget at the smallest candidate
+  // font, so a page-break threshold that's merely shifted (not just removed)
+  // is still caught.
+  const longName = "Very Long Creditor Name Segment ".repeat(70);
+  const doc = generateDemandLetterPdf(
+    buildDemandLetter({
+      ...BASE,
+      creditorName: longName,
+      caseNumber: "",
+      courtName: "",
+      addressBlock: "",
+    }),
+  );
+  assert.equal(doc.internal.getNumberOfPages(), 2);
+});
