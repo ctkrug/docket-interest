@@ -84,25 +84,25 @@ The on-screen preview of the letter (before download) gets the signature dog-ear
 
 ## Epic 3 — Trust, responsiveness & accessibility
 
-### [ ] 3.1 Statute citations, "last verified" dating, and legal disclaimer
+### [x] 3.1 Statute citations, "last verified" dating, and legal disclaimer
 - Every calculation result shows the statute citation and a "rates last verified" date for the
   selected state, sourced from the data in 1.2.
 - A persistent, visible disclaimer states the tool is a calculation aid, not legal advice, and
   that rates should be confirmed against current law before relying on them.
 
-### [ ] 3.2 Responsive layout at 390 / 768 / 1440
+### [x] 3.2 Responsive layout at 390 / 768 / 1440
 - At 390px width, the intake card and ledger panel stack vertically with no horizontal scroll
   and no overlapping elements.
 - At 1440px width, the two-column layout fills at least 60% of the viewport height with the
   calculator as the dominant element, per `docs/DESIGN.md`'s layout intent.
 
-### [ ] 3.3 Keyboard and screen-reader accessibility pass
+### [x] 3.3 Keyboard and screen-reader accessibility pass
 - Every interactive control (select, inputs, buttons) is reachable and operable via keyboard
   alone, in a sensible tab order, with visible focus indicators.
 - The live running total is exposed via an ARIA live region so a screen reader announces updates
   as the user types.
 
-### [ ] 3.4 Design self-review against docs/DESIGN.md
+### [x] 3.4 Design self-review against docs/DESIGN.md
 Run the D3 design self-review checklist (resize/squint/tab-through/click-through) and fix
 anything that doesn't match the paper-and-ink direction before calling v1 done.
 
