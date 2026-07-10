@@ -197,3 +197,17 @@ test("validateLetterFields leaves optional fields unchecked when empty", () => {
   });
   assert.equal(result.valid, true);
 });
+
+test("validateLetterFields reports every violated field at once, not just the first", () => {
+  const result = validateLetterFields({
+    creditorName: "",
+    debtorName: "北京",
+    caseNumber: "案件",
+    courtName: "",
+    addressBlock: "",
+  });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.creditorName); // missing
+  assert.ok(result.errors.debtorName); // unsupported characters
+  assert.ok(result.errors.caseNumber); // unsupported characters
+});
