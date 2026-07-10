@@ -5,6 +5,7 @@ import {
   simpleInterest,
   compoundInterest,
   calculateJudgmentInterest,
+  perDiemAmount,
 } from "../src/interest.js";
 
 test("daysBetween counts whole days regardless of time-of-day", () => {
@@ -92,6 +93,38 @@ test("calculateJudgmentInterest rejects non-positive principal", () => {
       }),
     RangeError,
   );
+});
+
+test("simpleInterest accrues zero interest when start equals end date", () => {
+  const { days, interest, total } = simpleInterest({
+    principal: 10000,
+    rate: 9,
+    startDate: "2026-01-01",
+    endDate: "2026-01-01",
+  });
+  assert.equal(days, 0);
+  assert.equal(interest, 0);
+  assert.equal(total, 10000);
+});
+
+test("compoundInterest accrues zero interest when start equals end date", () => {
+  const { days, interest, total } = compoundInterest({
+    principal: 10000,
+    rate: 6,
+    startDate: "2026-01-01",
+    endDate: "2026-01-01",
+  });
+  assert.equal(days, 0);
+  assert.equal(interest, 0);
+  assert.equal(total, 10000);
+});
+
+test("perDiemAmount computes the daily dollar accrual", () => {
+  assert.ok(Math.abs(perDiemAmount({ principal: 10000, rate: 7.3 }) - 2) < 0.001);
+});
+
+test("perDiemAmount is zero at a zero rate", () => {
+  assert.equal(perDiemAmount({ principal: 10000, rate: 0 }), 0);
 });
 
 test("calculateJudgmentInterest rejects negative rate", () => {
