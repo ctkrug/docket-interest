@@ -30,6 +30,16 @@ export function simpleInterest({ principal, rate, startDate, endDate }) {
 }
 
 /**
+ * The compounded balance as of the most recent annual anniversary — the base
+ * the current year's daily interest accrues on. For a simple-interest judgment
+ * (or a compound one still in its first year) this is just the principal.
+ */
+function balanceAtLastAnniversary(principal, rate, totalDays) {
+  const fullYears = Math.floor(totalDays / DAYS_PER_YEAR);
+  return principal * (1 + rate / 100) ** fullYears;
+}
+
+/**
  * Annual compound interest, used by the minority of states (e.g. Kentucky,
  * Colorado's default rate) whose statute compounds accrued interest once
  * per year. Full elapsed years compound; the trailing partial year accrues
@@ -38,14 +48,10 @@ export function simpleInterest({ principal, rate, startDate, endDate }) {
  */
 export function compoundInterest({ principal, rate, startDate, endDate }) {
   const totalDays = Math.max(0, daysBetween(startDate, endDate));
-  const fullYears = Math.floor(totalDays / DAYS_PER_YEAR);
-  const remainderDays = totalDays - fullYears * DAYS_PER_YEAR;
-  const annualMultiplier = 1 + rate / 100;
-
-  const balanceAtLastAnniversary = principal * annualMultiplier ** fullYears;
+  const remainderDays = totalDays - Math.floor(totalDays / DAYS_PER_YEAR) * DAYS_PER_YEAR;
+  const balance = balanceAtLastAnniversary(principal, rate, totalDays);
   const dailyRate = rate / 100 / DAYS_PER_YEAR;
-  const trailingInterest = balanceAtLastAnniversary * dailyRate * remainderDays;
-  const total = balanceAtLastAnniversary + trailingInterest;
+  const total = balance + balance * dailyRate * remainderDays;
 
   return { days: totalDays, interest: total - principal, total };
 }
@@ -73,11 +79,17 @@ export function calculateJudgmentInterest({
 }
 
 /**
- * The current day's accrual rate in dollars, shown next to the running
- * total so a reader can see how fast it's moving. Uses the original
- * principal even for compounding states, matching the simple-interest
- * daily rate that applies within the current compounding year.
+ * The current day's accrual in dollars, shown next to the running total so a
+ * reader can see how fast it's moving. For a compounding judgment this is the
+ * daily rate applied to the balance at the last anniversary (not the original
+ * principal), so it stays accurate as the balance grows year over year; for a
+ * simple judgment the balance is always the principal, so dates are optional.
  */
-export function perDiemAmount({ principal, rate }) {
-  return (principal * (rate / 100)) / DAYS_PER_YEAR;
+export function perDiemAmount({ principal, rate, method, startDate, endDate }) {
+  const dailyRate = rate / 100 / DAYS_PER_YEAR;
+  if (method === "compound" && startDate && endDate) {
+    const totalDays = Math.max(0, daysBetween(startDate, endDate));
+    return balanceAtLastAnniversary(principal, rate, totalDays) * dailyRate;
+  }
+  return principal * dailyRate;
 }

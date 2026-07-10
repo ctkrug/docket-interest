@@ -119,7 +119,7 @@ export function mountApp(root) {
       endDate: inputs.asOfDate,
     });
 
-    showResult(state, principal, result);
+    showResult(state, principal, inputs, result);
     latestResult = { state, principal, inputs, result };
     onResultChange(latestResult);
   }
@@ -130,13 +130,19 @@ export function mountApp(root) {
     els.ledgerResult.hidden = true;
   }
 
-  function showResult(state, principal, result) {
+  function showResult(state, principal, inputs, result) {
     els.ledgerEmpty.hidden = true;
     els.ledgerResult.hidden = false;
 
     setTotalText(els.ledgerTotal, formatCurrency(result.total));
     els.ledgerDays.textContent = formatDays(result.days);
-    const perDiem = perDiemAmount({ principal, rate: state.rate });
+    const perDiem = perDiemAmount({
+      principal,
+      rate: state.rate,
+      method: state.method,
+      startDate: inputs.judgmentDate,
+      endDate: inputs.asOfDate,
+    });
     els.ledgerPerDiem.textContent = `${formatCurrency(perDiem)}/day`;
     els.ledgerMethod.textContent =
       state.method === "compound" ? "Compound (annual)" : "Simple";

@@ -171,6 +171,33 @@ test("perDiemAmount is zero at a zero rate", () => {
   assert.equal(perDiemAmount({ principal: 10000, rate: 0 }), 0);
 });
 
+test("perDiemAmount for a compound judgment runs on the compounded balance", () => {
+  // After two full years at 6% compounded, $10,000 has grown to $11,236, so the
+  // current daily accrual is on that balance, not the original principal.
+  const args = {
+    principal: 10000,
+    rate: 6,
+    method: "compound",
+    startDate: "2024-01-01",
+    endDate: "2026-06-01",
+  };
+  const expected = (10000 * 1.06 ** 2 * (6 / 100)) / 365;
+  assert.ok(Math.abs(perDiemAmount(args) - expected) < 0.001);
+  // and it exceeds the naive principal-only figure it used to report
+  assert.ok(perDiemAmount(args) > (10000 * (6 / 100)) / 365);
+});
+
+test("perDiemAmount within a compound judgment's first year equals the principal figure", () => {
+  const args = {
+    principal: 10000,
+    rate: 6,
+    method: "compound",
+    startDate: "2026-01-01",
+    endDate: "2026-06-01",
+  };
+  assert.ok(Math.abs(perDiemAmount(args) - (10000 * (6 / 100)) / 365) < 0.001);
+});
+
 test("calculateJudgmentInterest rejects negative rate", () => {
   assert.throws(
     () =>
