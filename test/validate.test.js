@@ -145,3 +145,55 @@ test("validateLetterFields rejects whitespace-only names", () => {
   assert.ok(result.errors.creditorName);
   assert.ok(result.errors.debtorName);
 });
+
+test("validateLetterFields accepts Latin-1 diacritics in names", () => {
+  const result = validateLetterFields({
+    creditorName: "Müller & Søren Ñoño Corp",
+    debtorName: "José García",
+  });
+  assert.equal(result.valid, true);
+});
+
+test("validateLetterFields rejects a creditor name the PDF font can't render", () => {
+  const result = validateLetterFields({
+    creditorName: "北京有限公司",
+    debtorName: "John Debtor",
+  });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.creditorName);
+  assert.equal(result.errors.debtorName, undefined);
+});
+
+test("validateLetterFields rejects a debtor name the PDF font can't render", () => {
+  const result = validateLetterFields({
+    creditorName: "Jane Creditor",
+    debtorName: "Петров",
+  });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.debtorName);
+});
+
+test("validateLetterFields rejects unsupported characters in optional fields", () => {
+  const result = validateLetterFields({
+    creditorName: "Jane Creditor",
+    debtorName: "John Debtor",
+    caseNumber: "案件 2026",
+    courtName: "東京地方裁判所",
+    addressBlock: "123 Main St\n北京",
+  });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.caseNumber);
+  assert.ok(result.errors.courtName);
+  assert.ok(result.errors.addressBlock);
+});
+
+test("validateLetterFields leaves optional fields unchecked when empty", () => {
+  const result = validateLetterFields({
+    creditorName: "Jane Creditor",
+    debtorName: "John Debtor",
+    caseNumber: "",
+    courtName: "",
+    addressBlock: "",
+  });
+  assert.equal(result.valid, true);
+});

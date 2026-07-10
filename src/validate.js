@@ -57,20 +57,47 @@ export function validateInputs({ stateCode, principal, judgmentDate, asOfDate })
   return { valid: Object.keys(errors).length === 0, errors };
 }
 
+const UNSUPPORTED_CHAR_MESSAGE =
+  "can only use standard Latin letters, numbers, and punctuation — the PDF font can't render other characters.";
+
 /**
- * Validates the demand-letter form's two required identity fields.
- * Case number, court, and address are optional per BACKLOG 2.2 and are
- * not checked here.
+ * Validates the demand-letter form's fields. Creditor/debtor names are
+ * required (BACKLOG 2.1); case number, court, and address are optional
+ * (BACKLOG 2.2). Every field that flows into the PDF is checked against
+ * hasUnsupportedPdfCharacters so a name/address that can't be rendered is
+ * rejected with a clear message instead of silently corrupting the letter.
  */
-export function validateLetterFields({ creditorName, debtorName }) {
+export function validateLetterFields({
+  creditorName,
+  debtorName,
+  caseNumber,
+  courtName,
+  addressBlock,
+}) {
   const errors = {};
 
   if (!creditorName || !creditorName.trim()) {
     errors.creditorName = "Enter the creditor's name.";
+  } else if (hasUnsupportedPdfCharacters(creditorName)) {
+    errors.creditorName = `Creditor name ${UNSUPPORTED_CHAR_MESSAGE}`;
   }
 
   if (!debtorName || !debtorName.trim()) {
     errors.debtorName = "Enter the debtor's name.";
+  } else if (hasUnsupportedPdfCharacters(debtorName)) {
+    errors.debtorName = `Debtor name ${UNSUPPORTED_CHAR_MESSAGE}`;
+  }
+
+  if (caseNumber && hasUnsupportedPdfCharacters(caseNumber)) {
+    errors.caseNumber = `Case number ${UNSUPPORTED_CHAR_MESSAGE}`;
+  }
+
+  if (courtName && hasUnsupportedPdfCharacters(courtName)) {
+    errors.courtName = `Court name ${UNSUPPORTED_CHAR_MESSAGE}`;
+  }
+
+  if (addressBlock && hasUnsupportedPdfCharacters(addressBlock)) {
+    errors.addressBlock = `Address ${UNSUPPORTED_CHAR_MESSAGE}`;
   }
 
   return { valid: Object.keys(errors).length === 0, errors };
