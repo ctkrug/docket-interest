@@ -65,6 +65,12 @@ self-review note in `docs/BACKLOG.md` 3.4) rather than unit tests.
   name) used to draw text below the bottom margin and silently lose it. `writeLine()` now starts a
   new page whenever the next line would fall past the margin; realistic letters still land on one
   page since the font-shrink loop already fits them there.
+- **The demand-letter PDF only supports WinAnsi (Windows-1252) characters.** jsPDF's standard
+  Helvetica font maps unsupported code points (CJK, Cyrillic, emoji, ...) to unrelated glyphs
+  instead of erroring — a name like "北京有限公司" silently became mojibake on the actual legal
+  document. `validate.js`'s `hasUnsupportedPdfCharacters` rejects those characters in every
+  letter field before generation. If the tool ever needs real non-Latin name support, the fix is
+  embedding a Unicode font via `doc.addFont()`, not loosening this check.
 
 ## Run / test / build
 
