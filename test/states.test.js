@@ -111,6 +111,16 @@ test("rate is either a positive number or null", () => {
   }
 });
 
+test("exactly the documented four jurisdictions have a null rate", () => {
+  // app.js's no-single-number UI path (and ARCHITECTURE.md's gotchas list)
+  // names these four explicitly. If a future data update adds or removes a
+  // null-rate state without updating both, this is the tripwire.
+  const nullRateCodes = STATES.filter((s) => s.rate === null)
+    .map((s) => s.code)
+    .sort();
+  assert.deepEqual(nullRateCodes, ["IA", "ME", "MS", "WA"]);
+});
+
 test("at least one state compounds annually (the differentiating research)", () => {
   const compoundStates = STATES.filter((s) => s.method === "compound");
   assert.ok(compoundStates.length > 0);
