@@ -30,3 +30,22 @@ export function validateInputs({ stateCode, principal, judgmentDate, asOfDate })
 
   return { valid: Object.keys(errors).length === 0, errors };
 }
+
+/**
+ * Validates the demand-letter form's two required identity fields.
+ * Case number, court, and address are optional per BACKLOG 2.2 and are
+ * not checked here.
+ */
+export function validateLetterFields({ creditorName, debtorName }) {
+  const errors = {};
+
+  if (!creditorName || !creditorName.trim()) {
+    errors.creditorName = "Enter the creditor's name.";
+  }
+
+  if (!debtorName || !debtorName.trim()) {
+    errors.debtorName = "Enter the debtor's name.";
+  }
+
+  return { valid: Object.keys(errors).length === 0, errors };
+}
