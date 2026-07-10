@@ -5,6 +5,9 @@
   "description": "A free, all-50-state judgment interest calculator with a one-click demand letter PDF.",
   "type": "module",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
