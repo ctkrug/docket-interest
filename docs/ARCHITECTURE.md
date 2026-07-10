@@ -78,6 +78,6 @@ self-review note in `docs/BACKLOG.md` 3.4) rather than unit tests.
 npm run dev       # Vite dev server
 npm test          # node --test test/  (pure-logic unit tests)
 npm run lint      # eslint .
-npm run build     # → dist/, relative-path static build for a subpath deploy
-npm run preview   # serve dist/ locally
+npm run build     # → site/, relative-path static build for a subpath deploy
+npm run preview   # serve site/ locally
 ```

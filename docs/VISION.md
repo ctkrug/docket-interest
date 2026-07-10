@@ -72,7 +72,7 @@ rules for all 50 states + DC as data, and does every calculation in the browser.
 - The state interest-rate data table covers all 50 states + DC with a rate (or rate formula
   description), simple/compound method, and statute citation for each, matching the sourced
   research in `docs/BACKLOG.md`'s data epic.
-- The app is a single static build (`npm run build` → `dist/`) with relative asset paths,
+- The app is a single static build (`npm run build` → `site/`) with relative asset paths,
   deployable to `apps.charliekrug.com/docket-interest` or any static host with no configuration.
 - The page follows `docs/DESIGN.md`'s paper-and-ink direction end to end — this is a calculator
   that looks and feels like a legal instrument, not a generic form.

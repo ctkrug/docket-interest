@@ -5,6 +5,8 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "./",
   build: {
-    outDir: "dist",
+    // Deployed as-is to apps.charliekrug.com/docket-interest/; the static
+    // output dir doubles as the site/ the publisher serves.
+    outDir: "site",
   },
 });
