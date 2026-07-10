@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { validateInputs } from "../src/validate.js";
+import { validateInputs, validateLetterFields } from "../src/validate.js";
 
 const VALID = {
   stateCode: "KY",
@@ -80,4 +80,31 @@ test("reports every violated field at once, not just the first", () => {
     asOfDate: "",
   });
   assert.equal(Object.keys(result.errors).length, 4);
+});
+
+test("validateLetterFields accepts both names filled", () => {
+  const result = validateLetterFields({
+    creditorName: "Jane Creditor",
+    debtorName: "John Debtor",
+  });
+  assert.equal(result.valid, true);
+});
+
+test("validateLetterFields rejects a missing creditor name", () => {
+  const result = validateLetterFields({ creditorName: "", debtorName: "John Debtor" });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.creditorName);
+});
+
+test("validateLetterFields rejects a missing debtor name", () => {
+  const result = validateLetterFields({ creditorName: "Jane Creditor", debtorName: "" });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.debtorName);
+});
+
+test("validateLetterFields rejects whitespace-only names", () => {
+  const result = validateLetterFields({ creditorName: "   ", debtorName: "   " });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.creditorName);
+  assert.ok(result.errors.debtorName);
 });
