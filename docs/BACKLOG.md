@@ -5,7 +5,7 @@ stories start unchecked; check them off as BUILD runs land them.
 
 ## Epic 1 — Core calculator
 
-### [ ] 1.1 Live simple/compound judgment interest calculator — **the wow moment**
+### [x] 1.1 Live simple/compound judgment interest calculator — **the wow moment**
 A state picker plus judgment-amount and judgment-date inputs drive a live running total,
 computed with that state's actual simple-or-compound rule via `calculateJudgmentInterest`.
 
@@ -17,7 +17,7 @@ computed with that state's actual simple-or-compound rule via `calculateJudgment
 - The selected state's rate (or rate description) and governing statute citation are visibly
   displayed next to the total.
 
-### [ ] 1.2 All-50-states + DC sourced interest-rate data table
+### [x] 1.2 All-50-states + DC sourced interest-rate data table
 `src/data/states.js` ships a complete, sourced data table: every state + DC gets a rate (or rate
 formula), a `method` of `"simple"` or `"compound"`, and a statute citation.
 
@@ -27,7 +27,7 @@ formula), a `method` of `"simple"` or `"compound"`, and a statute citation.
   or prime rate) is flagged with a `rateType` of `"variable"` and a `lastVerified` date, rather
   than being presented as a permanent flat number.
 
-### [ ] 1.3 Input validation and edge cases
+### [x] 1.3 Input validation and edge cases
 - Entering a zero or negative judgment amount shows an inline error message and does not throw
   or render `NaN`/`Infinity` anywhere on the page.
 - Entering a judgment date after the as-of date shows an inline error instead of computing
@@ -35,13 +35,13 @@ formula), a `method` of `"simple"` or `"compound"`, and a statute citation.
 - With no state selected, the total area shows a clear "select a state" prompt instead of
   silently computing $0.
 
-### [ ] 1.4 As-of date control
+### [x] 1.4 As-of date control
 - The as-of date input defaults to the current date on load and the total recalculates
   immediately when the user changes it.
 - Choosing an as-of date earlier than the judgment date is blocked with an inline validation
   message (covered by the same guard as 1.3).
 
-### [ ] 1.5 Design polish — the intake card and ledger panel
+### [x] 1.5 Design polish — the intake card and ledger panel
 Apply `docs/DESIGN.md`'s paper-and-ink direction to the calculator itself: styled inputs with
 themed focus/hover/active states, the monospace ledger total with its digit ink-flash on change,
 and the two-column desk layout at 1440px collapsing cleanly to a stacked layout at 390px.
