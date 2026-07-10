@@ -18,6 +18,24 @@ test("covers exactly the 50 states plus DC", () => {
   assert.equal(STATES.length, 51);
 });
 
+test("covers every state and DC by name, not just by count", () => {
+  // A count of 51 alone wouldn't catch a duplicate crowding out a real
+  // jurisdiction (e.g. two "Georgia" entries with Guam never added).
+  const CANONICAL_NAMES = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
+    "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia",
+    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+    "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
+    "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota",
+    "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
+    "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+    "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
+  ];
+  const names = STATES.map((s) => s.name).sort();
+  assert.deepEqual(names, [...CANONICAL_NAMES].sort());
+});
+
 test("every state code is unique", () => {
   const codes = STATES.map((s) => s.code);
   assert.equal(new Set(codes).size, codes.length);
