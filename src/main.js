@@ -1,15 +1,19 @@
 import { calculateJudgmentInterest } from "./interest.js";
+import { formatCurrency, formatDays } from "./format.js";
+import { getState } from "./data/states.js";
 
-// Scaffold placeholder: proves the interest engine is wired up end to end.
-// The real state picker, live inputs, and PDF export land in BUILD per
-// docs/BACKLOG.md — this just renders one worked example on load.
+// Scaffold placeholder: proves the interest engine, formatting helpers, and
+// state data table are wired together end to end. The real state picker,
+// live inputs, and PDF export land in BUILD per docs/BACKLOG.md — this just
+// renders one worked example (a compounding state) on load.
 function renderScaffold() {
+  const kentucky = getState("KY");
   const example = calculateJudgmentInterest({
     principal: 10000,
-    rate: 9,
-    method: "simple",
+    rate: kentucky.rate,
+    method: kentucky.method,
     startDate: "2025-01-01",
-    endDate: "2026-01-01",
+    endDate: "2027-01-01",
   });
 
   const app = document.getElementById("app");
@@ -23,8 +27,8 @@ function renderScaffold() {
         <code>docs/BACKLOG.md</code>.
       </p>
       <p class="scaffold-ledger">
-        Example: $10,000 at 9% simple over ${example.days} days &rarr;
-        $${example.total.toFixed(2)}
+        Example: $10,000 in ${kentucky.name} (${kentucky.method}, ${kentucky.rateDescription})
+        over ${formatDays(example.days)} &rarr; ${formatCurrency(example.total)}
       </p>
     </main>
   `;
