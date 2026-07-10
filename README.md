@@ -46,8 +46,10 @@ get a statute-correct running total — plus a demand letter ready to print and 
 
 ## Status
 
-Early scaffold — see [`docs/VISION.md`](docs/VISION.md) for the full plan and
-[`docs/BACKLOG.md`](docs/BACKLOG.md) for the build breakdown.
+Early scaffold — see [`docs/VISION.md`](docs/VISION.md) for the full plan,
+[`docs/BACKLOG.md`](docs/BACKLOG.md) for the build breakdown, and
+[`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) for the citations behind the state interest-rate
+table.
 
 ## Legal note
 
