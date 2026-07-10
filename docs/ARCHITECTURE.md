@@ -24,7 +24,9 @@ src/
   letter.js            Pure content builder: buildDemandLetter() turns calculator state into an
                        array of letter paragraphs, cleanly omitting blank optional fields
   pdf.js               Wraps jsPDF: generateDemandLetterPdf(paragraphs) measures line count at a
-                       few candidate font sizes and picks the largest that fits one US Letter page
+                       few candidate font sizes and picks the largest that fits one US Letter
+                       page, falling back to additional pages if content is too long to fit even
+                       at the smallest candidate size
   format.js            formatCurrency, formatDays, formatDateLong
   data/states.js       The 51-entry (50 states + DC) sourced interest-rate table + getState()
   styles.css           All styling; tokens match docs/DESIGN.md's paper-and-ink direction
@@ -58,6 +60,11 @@ self-review note in `docs/BACKLOG.md` 3.4) rather than unit tests.
   message instead of computing (avoids `NaN` on screen).
 - **`as-of-date` defaults to the local "today"**, computed manually from `Date` getters rather than
   `toISOString()`, so the default doesn't shift a day for users west of UTC near midnight.
+- **`generateDemandLetterPdf` paginates rather than overflows.** The single-page font-shrink loop
+  alone never increments jsPDF's page count, so pathologically long input (a pasted-in essay as a
+  name) used to draw text below the bottom margin and silently lose it. `writeLine()` now starts a
+  new page whenever the next line would fall past the margin; realistic letters still land on one
+  page since the font-shrink loop already fits them there.
 
 ## Run / test / build
 
