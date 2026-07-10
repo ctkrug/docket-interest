@@ -49,3 +49,26 @@ test("produces a non-empty PDF byte stream", () => {
   assert.ok(bytes.length > 100);
   assert.match(bytes, /^%PDF-/);
 });
+
+test("spills onto additional pages instead of losing content when input is pathologically long", () => {
+  // Even the smallest candidate font can't shrink a name this long onto one page.
+  // The letter must paginate rather than silently draw text past the bottom margin.
+  const longName = "Extremely Long Judgment Creditor Name ".repeat(60);
+  const longAddress = Array.from(
+    { length: 40 },
+    (_, i) => `Suite ${i} Accounts Receivable Processing Department `.repeat(4),
+  ).join("\n");
+  const doc = generateDemandLetterPdf(
+    buildDemandLetter({
+      ...BASE,
+      creditorName: longName,
+      debtorName: longName,
+      courtName: "Y".repeat(500),
+      addressBlock: longAddress,
+    }),
+  );
+  assert.ok(
+    doc.internal.getNumberOfPages() > 1,
+    "expected pagination for content that cannot fit on one page at any candidate font size",
+  );
+});
