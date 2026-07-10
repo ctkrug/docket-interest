@@ -1,4 +1,4 @@
-import { calculateJudgmentInterest } from "./interest.js";
+import { calculateJudgmentInterest, perDiemAmount } from "./interest.js";
 import { formatCurrency, formatDays, formatDateLong } from "./format.js";
 import { STATES, getState } from "./data/states.js";
 import { validateInputs } from "./validate.js";
@@ -136,7 +136,7 @@ export function mountApp(root) {
 
     setTotalText(els.ledgerTotal, formatCurrency(result.total));
     els.ledgerDays.textContent = formatDays(result.days);
-    const perDiem = (principal * (state.rate / 100)) / 365;
+    const perDiem = perDiemAmount({ principal, rate: state.rate });
     els.ledgerPerDiem.textContent = `${formatCurrency(perDiem)}/day`;
     els.ledgerMethod.textContent =
       state.method === "compound" ? "Compound (annual)" : "Simple";
