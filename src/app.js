@@ -66,10 +66,12 @@ export function mountApp(root) {
     };
   }
 
+  const touched = new Set();
+
   function paintErrors(errors) {
     for (const id of FIELD_IDS) {
       const key = ERROR_KEY_BY_FIELD[id];
-      const message = errors[key] || "";
+      const message = touched.has(id) ? errors[key] || "" : "";
       const errorEl = document.getElementById(`${id}-error`);
       const fieldEl = document.getElementById(`field-${id}`);
       errorEl.textContent = message;
@@ -164,7 +166,14 @@ export function mountApp(root) {
   }
 
   for (const id of FIELD_IDS) {
-    els[id].addEventListener("input", recalculate);
+    els[id].addEventListener("input", () => {
+      if (els[id].value.trim() !== "") touched.add(id);
+      recalculate();
+    });
+    els[id].addEventListener("blur", () => {
+      touched.add(id);
+      recalculate();
+    });
   }
 
   recalculate();
