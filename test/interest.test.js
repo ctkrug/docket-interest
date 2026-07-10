@@ -14,6 +14,20 @@ test("daysBetween counts whole days regardless of time-of-day", () => {
   assert.equal(daysBetween("2026-01-01", "2026-01-01"), 0);
 });
 
+test("daysBetween accepts Date instances as well as ISO strings", () => {
+  const start = new Date("2026-01-01T15:30:00Z");
+  const end = new Date("2026-01-05T02:00:00Z");
+  assert.equal(daysBetween(start, end), 4);
+  // A Date-instance start mixed with a string end still works, and the
+  // time-of-day on the Date instance is ignored just like a string is.
+  assert.equal(daysBetween(start, "2026-01-02"), 1);
+});
+
+test("daysBetween counts a leap-day span correctly", () => {
+  assert.equal(daysBetween("2028-02-28", "2028-03-01"), 2); // 2028 is a leap year
+  assert.equal(daysBetween("2027-02-28", "2027-03-01"), 1); // 2027 is not
+});
+
 test("simpleInterest accrues on principal only, not on prior interest", () => {
   const { days, interest, total } = simpleInterest({
     principal: 10000,
