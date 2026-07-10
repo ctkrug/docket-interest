@@ -175,7 +175,12 @@ function renderLetterShell() {
           <p id="download-status" class="download-status" role="status"></p>
         </form>
         <div class="letter-preview-wrap">
-          <div class="letter-preview" id="letter-preview" aria-live="polite"></div>
+          <div
+            class="letter-preview"
+            id="letter-preview"
+            aria-live="polite"
+            aria-label="Demand letter preview"
+          ></div>
         </div>
       </div>
     </section>
