@@ -1,75 +1,121 @@
 # Docket Interest
 
-A free, all-50-state judgment interest calculator with correct simple/compound rules and a
-one-click printable demand letter.
+**▶ Live demo — [apps.charliekrug.com/docket-interest](https://apps.charliekrug.com/docket-interest/)**
 
-## Why
+[![CI](https://github.com/ctkrug/docket-interest/actions/workflows/ci.yml/badge.svg)](https://github.com/ctkrug/docket-interest/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-8a1f2b.svg)](LICENSE)
 
-Winning a judgment is only step one — collecting it is step two, and step two runs on interest
-that keeps accruing until the debtor pays. Commercial tools like Margill exist for law firms with
-budgets; a self-represented litigant or a small creditor chasing a few thousand dollars usually
-has nothing but a calculator and a guess. Every US state sets its own post-judgment interest rate
-by statute, and a meaningful number of them compound annually instead of accruing simple interest
-— get that distinction wrong and the number you hand a debtor (or a court) is wrong.
+Judgment interest, calculated right for every state. A free judgment interest calculator for all
+50 states and DC that uses each state's real statutory rate and its correct simple-or-compound
+rule, then turns the result into a printable demand letter.
 
-Docket Interest is the free alternative: pick a state, enter the judgment amount and date, and
-get a statute-correct running total — plus a demand letter ready to print and mail.
+## Who it's for
 
-## The wow moment
+You won a money judgment and now you have to collect it. Maybe you're a small landlord, a
+small-claims plaintiff, or a creditor chasing a few thousand dollars on your own. The balance
+keeps earning interest from the day the judgment was entered, at a rate your state fixes by
+statute, and a handful of states compound that interest every year. Get the rate or the method
+wrong and the number you hand a court or a debtor is wrong. The commercial tools that get it right
+are built and priced for law firms. Docket Interest is the free alternative.
 
-1. Pick your state from a dropdown.
-2. Type in the judgment amount and the date it was entered.
-3. Watch the accrued interest tick up in real time, computed with that state's actual
-   simple-or-compound rule and statutory rate.
-4. Click one button. Get a formatted, ready-to-mail demand letter PDF with the full accrual
-   shown on the page.
+## How it works
 
-## Features
+1. Pick your state.
+2. Enter the judgment amount and the date it was entered.
+3. Watch the accrued interest and total due update as you type, with the day count, the per-diem
+   rate, and the governing statute shown alongside.
+4. Click once to download a formatted demand letter built from the same numbers.
 
-- A sourced data table of post-judgment interest rules for all 50 states + DC: rate (or rate
-  formula), simple vs. compound, and the governing statute citation.
-- A live calculator: state, principal, judgment date (and optional as-of date) in; running
-  total interest and grand total out, updating as you type.
-- One-click demand letter generation as a PDF (via jsPDF) — creditor/debtor names, case
-  number, judgment details, and the interest computation laid out for a court or collections
-  recipient.
-- A static, self-contained build with no server and no backend — everything runs in the
-  browser, deployable to a static host.
+Everything runs in your browser. There is no login, no server, and no data leaves the page.
 
-## Stack
+## Sample demand letter
 
-- Vanilla JavaScript (ES modules), bundled with [Vite](https://vitejs.dev/) for a static,
-  relative-path build.
-- [jsPDF](https://github.com/parallax/jsPDF) for client-side PDF generation.
-- No backend, no database, no build-time secrets — the interest data table ships as a static
-  JSON/JS module in the bundle.
+The one-click PDF is a ready-to-mail letter. Filling in a $10,000 Kentucky judgment (a state that
+compounds annually) entered March 15, 2023 produces:
 
-## Status
+```
+July 10, 2026
+Fayette Circuit Court
+455 Industrial Pkwy
+Lexington, KY 40511
 
-The core calculator and demand letter are both functionally complete: pick a state, enter a
-judgment amount and date, and the running total, day count, per-diem rate, and statute citation
-update live; the "Generate demand letter" button downloads a single-page PDF built from the same
-numbers. See [`docs/VISION.md`](docs/VISION.md) for the full plan,
-[`docs/BACKLOG.md`](docs/BACKLOG.md) for the build breakdown, [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-for a map of the codebase, and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) for the citations
-behind the state interest-rate table.
+Re: Demand for Payment of Judgment — Case No. 2023-CV-04817
+
+Dear Northgate Auto LLC:
+
+This letter serves as formal demand for payment of the money judgment entered
+in favor of Maria Alvarez on March 15, 2023 in the principal amount of $10,000.00.
+
+Under Kentucky's governing statute (Ky. Rev. Stat. Ann. § 360.040), post-judgment
+interest accrues on a compound basis. As of July 10, 2026, 1213 days have elapsed
+since entry of judgment, producing accrued interest of $2,141.18.
+
+Principal: $10,000.00
+Accrued interest: $2,141.18
+Total due as of July 10, 2026: $12,141.18
+
+Demand is hereby made for payment in full of $12,141.18 within fourteen (14) days
+of the date of this letter. Interest will continue to accrue on the unpaid balance
+until paid in full. Failure to remit payment may result in further collection action.
+
+Sincerely,
+
+Maria Alvarez
+```
+
+## What it does
+
+- **Every state's rule, not a one-size guess.** All 50 states and DC ship with their post-judgment
+  rate (or rate formula), simple-vs-compound method, and the governing statute citation, sourced
+  from primary and secondary references in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).
+- **Compound interest is handled correctly.** Colorado, Kentucky, Michigan, Oklahoma, South
+  Carolina, and Texas compound annually; the calculator applies each state's method automatically
+  and the balance compounds year over year instead of accruing flat.
+- **A live running total.** Interest, total due, elapsed days, and the daily per-diem update on
+  every keystroke, so you can check the figure for any as-of date.
+- **A one-click demand letter.** The generated PDF lays out the creditor and debtor names, case
+  details, judgment amount, and the full interest computation on a US Letter page, ready to print
+  and mail.
+- **Honest about volatility.** Rates tied to a Treasury yield or the prime rate are marked variable
+  and stamped with the date they were last verified, so you know which numbers to confirm before a
+  filing.
 
 ## Running locally
 
 ```
 npm install
 npm run dev       # local dev server
-npm test          # unit tests
-npm run build     # static build → dist/
+npm test          # unit tests (node:test)
+npm run lint      # eslint
+npm run build     # static build → site/
 ```
+
+The build is a single static bundle with relative asset paths, so it drops onto any static host or
+subpath with no configuration.
+
+## Stack
+
+- Vanilla JavaScript (ES modules), bundled with [Vite](https://vitejs.dev/).
+- [jsPDF](https://github.com/parallax/jsPDF) for client-side PDF generation, loaded lazily so the
+  calculator itself stays light.
+- No backend, no database, no build-time secrets. The interest-rate table ships as a data module in
+  the bundle.
+
+See [`docs/VISION.md`](docs/VISION.md) for the why, [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+for a map of the code, and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) for the statute citations
+behind every rate.
 
 ## Legal note
 
-Docket Interest is a calculation tool, not legal advice. Statutory interest rates and rules are
-sourced from public state statutes but change over time and can vary by judgment type
-(contract, tort, consumer debt); always confirm the applicable rate against the current statute
-or with an attorney before relying on a number for a real filing.
+Docket Interest is a calculation aid, not legal advice. Statutory interest rates are sourced from
+public state law but change over time and can vary by judgment type (contract, tort, consumer
+debt). Always confirm the applicable rate against the current statute or with an attorney before
+relying on a number for a real filing.
 
 ## License
 
-MIT — see [`LICENSE`](LICENSE).
+MIT. See [`LICENSE`](LICENSE).
+
+---
+
+More of Charlie's projects → [apps.charliekrug.com](https://apps.charliekrug.com)
