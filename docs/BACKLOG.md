@@ -53,7 +53,7 @@ and the two-column desk layout at 1440px collapsing cleanly to a stacked layout 
 
 ## Epic 2 — Demand letter PDF
 
-### [ ] 2.1 One-click demand letter PDF generation
+### [x] 2.1 One-click demand letter PDF generation
 A "Generate demand letter" button renders a jsPDF document with creditor name, debtor name,
 judgment amount, judgment date, computed interest, and total due.
 
@@ -61,7 +61,7 @@ judgment amount, judgment date, computed interest, and total due.
   all six of those values, matching the on-screen calculation.
 - Leaving optional fields empty (see 2.2) does not prevent generation or throw an error.
 
-### [ ] 2.2 Optional letter detail fields
+### [x] 2.2 Optional letter detail fields
 Case number, court name, and a mailing address block are optional inputs that flow into the PDF
 when present.
 
@@ -69,12 +69,12 @@ when present.
 - Leaving any of these fields blank cleanly omits that line from the PDF layout — no
   "undefined", empty brackets, or stray blank line where the field would have been.
 
-### [ ] 2.3 Print-friendly single-page PDF layout
+### [x] 2.3 Print-friendly single-page PDF layout
 - A demand letter generated with all fields filled renders on exactly one US Letter page.
 - Margins and font sizes keep all text within the printable area at 100% print scale — no
   clipped lines at the page edge.
 
-### [ ] 2.4 Design polish — the demand letter preview
+### [x] 2.4 Design polish — the demand letter preview
 The on-screen preview of the letter (before download) gets the signature dog-eared paper corner
 (`clip-path`) from `docs/DESIGN.md`, and the generate button is styled as the wax-seal circle.
 
