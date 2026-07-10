@@ -133,6 +133,23 @@ test("compoundInterest accrues zero interest when start equals end date", () => 
   assert.equal(total, 10000);
 });
 
+test("simpleInterest and compoundInterest both accrue nothing at a zero rate", () => {
+  const params = { principal: 10000, rate: 0, startDate: "2024-01-01", endDate: "2027-01-01" };
+  const simple = simpleInterest(params);
+  const compound = compoundInterest(params);
+  assert.equal(simple.interest, 0);
+  assert.equal(simple.total, 10000);
+  assert.equal(compound.interest, 0);
+  assert.equal(compound.total, 10000);
+});
+
+test("compoundInterest matches simpleInterest within the first year (no anniversary yet)", () => {
+  const params = { principal: 10000, rate: 6, startDate: "2026-01-01", endDate: "2026-06-01" };
+  const simple = simpleInterest(params);
+  const compound = compoundInterest(params);
+  assert.ok(Math.abs(simple.total - compound.total) < 0.0001);
+});
+
 test("perDiemAmount computes the daily dollar accrual", () => {
   assert.ok(Math.abs(perDiemAmount({ principal: 10000, rate: 7.3 }) - 2) < 0.001);
 });
