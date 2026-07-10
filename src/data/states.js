@@ -584,7 +584,7 @@ export const STATES = [
     method: "simple",
     rateType: "fixed",
     citation: "Wyo. Stat. Ann. § 1-16-102",
-    notes: "A contract specifying its own rate governs instead of the 10% default.",
+    notes: "A contract specifying its own rate governs instead of the 10% default. Simple-interest treatment is a reasonable default assumption, not a confirmed one — the statute is silent on compounding and no controlling case law addressing it was found; see docs/DATA_SOURCES.md.",
     lastVerified: VERIFIED,
   },
 ];

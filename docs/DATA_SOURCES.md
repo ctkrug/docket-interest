@@ -112,9 +112,11 @@ treating them as settled:
   three ship with `rate: null` and a formula description instead of a number.
 - **Mississippi**: no statutory default at all — a judge sets a "fair" rate case by case for
   non-contract judgments. Ships with `rateType: "discretionary"`.
-- **South Dakota, Utah**: the simple-vs-compound characterization rests on inference (no
+- **South Dakota, Utah, Wyoming**: the simple-vs-compound characterization rests on inference (no
   compounding language found, plus practitioner treatment) rather than an explicit statutory
-  statement or dispositive case law — flagged in each entry's `notes`.
+  statement or dispositive case law — flagged in each entry's `notes`. Wyoming in particular was
+  independently re-checked and confirmed unresolved (no statute text or case law found either
+  way), so it's marked `simple` as the conventional default rather than a verified fact.
 - **Tennessee's second half of 2026, and any `variable`-rateType entry generally**: these reset
   on a published schedule (annually, semi-annually, quarterly, or monthly depending on the
   state) and will drift out of date; `lastVerified` records when each entry was last checked so
