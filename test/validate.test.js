@@ -20,6 +20,17 @@ test("accepts a judgment date equal to the as-of date (zero days)", () => {
   assert.equal(result.valid, true);
 });
 
+test("accepts a very large judgment amount", () => {
+  const result = validateInputs({ ...VALID, principal: "999999999" });
+  assert.equal(result.valid, true);
+});
+
+test("rejects an infinite judgment amount", () => {
+  const result = validateInputs({ ...VALID, principal: "Infinity" });
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.principal);
+});
+
 test("rejects a missing state", () => {
   const result = validateInputs({ ...VALID, stateCode: "" });
   assert.equal(result.valid, false);
