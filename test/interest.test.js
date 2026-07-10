@@ -56,6 +56,19 @@ test("simpleInterest doubles over double the time", () => {
   assert.ok(Math.abs(twoYears.interest - 2 * oneYear.interest) < 0.5);
 });
 
+test("compoundInterest has no discontinuity at the annual anniversary", () => {
+  // The docstring promises the trailing partial year is continuous with the
+  // compounded balance — the day-over-day delta shouldn't jump at the
+  // anniversary the way it would if compounding were applied a day early/late.
+  const params = { principal: 10000, rate: 6, startDate: "2020-01-01" };
+  const day365 = compoundInterest({ ...params, endDate: "2020-12-31" }).total;
+  const day366 = compoundInterest({ ...params, endDate: "2021-01-01" }).total; // anniversary
+  const day367 = compoundInterest({ ...params, endDate: "2021-01-02" }).total;
+  const deltaBefore = day366 - day365;
+  const deltaAfter = day367 - day366;
+  assert.ok(Math.abs(deltaAfter - deltaBefore) < 0.01, `expected no jump, got ${deltaBefore} vs ${deltaAfter}`);
+});
+
 test("compoundInterest compounds annually on whole-year anniversaries", () => {
   // 2025 and 2026 are both non-leap years, so this spans exactly 730 days
   // (two whole 365-day cycles) with no leap-day remainder to account for.
