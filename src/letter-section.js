@@ -1,5 +1,4 @@
 import { buildDemandLetter } from "./letter.js";
-import { generateDemandLetterPdf } from "./pdf.js";
 import { validateLetterFields } from "./validate.js";
 
 const LETTER_FIELD_IDS = ["creditor-name", "debtor-name", "case-number", "court-name", "address-block"];
@@ -119,7 +118,7 @@ export function mountLetterSection(mount, app) {
     });
   }
 
-  els.generateBtn.addEventListener("click", () => {
+  els.generateBtn.addEventListener("click", async () => {
     const result = app.getLatestResult();
     if (!result) return;
 
@@ -134,6 +133,10 @@ export function mountLetterSection(mount, app) {
     }
 
     const paragraphs = currentParagraphs();
+    // jsPDF (and its optional html2canvas/dompurify deps) is heavy and only
+    // needed once someone actually generates a letter, so it's split into a
+    // lazy chunk here rather than loaded with the calculator on first paint.
+    const { generateDemandLetterPdf } = await import("./pdf.js");
     const doc = generateDemandLetterPdf(paragraphs);
     doc.save(`demand-letter-${result.state.code}.pdf`);
     els.downloadStatus.textContent = "Demand letter downloaded.";
