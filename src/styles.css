@@ -399,6 +399,102 @@ textarea.control {
   line-height: 1.6;
 }
 
+/* ---------- About / FAQ (SEO content) ---------- */
+
+.about {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-3) var(--space-6);
+}
+
+.about-inner {
+  max-width: 70ch;
+  margin: 0 auto;
+  background: var(--surface-1);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-4);
+  border-top: 3px solid var(--accent-support);
+}
+
+.about h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.25;
+  margin: 0 0 var(--space-3);
+}
+
+.about h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.about h3 {
+  font-size: 1rem;
+  margin: 0 0 var(--space-1);
+  color: var(--accent);
+}
+
+.about p {
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0 0 var(--space-2);
+}
+
+.faq-item {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid rgba(33, 29, 22, 0.1);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.about-disclaimer {
+  margin-top: var(--space-3);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* ---------- Site footer ---------- */
+
+.site-footer {
+  max-width: 70ch;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3) var(--space-8);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.site-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(138, 31, 43, 0.3);
+  transition: border-color var(--motion-ui);
+}
+
+.site-footer a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.site-footer-sep {
+  margin: 0 var(--space-1);
+  opacity: 0.6;
+}
+
+@media (max-width: 480px) {
+  .site-footer-sep {
+    display: none;
+  }
+  .site-footer span {
+    display: block;
+    margin-top: var(--space-1);
+  }
+}
+
 /* ---------- Motion preferences ---------- */
 
 @media (prefers-reduced-motion: reduce) {

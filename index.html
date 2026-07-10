@@ -3,11 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Docket Interest — judgment interest calculator</title>
+    <title>Docket Interest — judgment interest calculator for every state</title>
     <meta
       name="description"
-      content="A free, all-50-state judgment interest calculator with correct simple/compound rules and a one-click printable demand letter."
+      content="Free judgment interest calculator for all 50 states and DC. Get a statute-correct running total with the right simple or compound rule, plus a printable demand letter."
     />
+    <meta property="og:title" content="Docket Interest — judgment interest calculator for every state" />
+    <meta
+      property="og:description"
+      content="Free judgment interest calculator for all 50 states and DC. Statute-correct simple or compound accrual, plus a one-click printable demand letter."
+    />
+    <meta property="og:type" content="website" />
     <link
       rel="icon"
       type="image/svg+xml"
@@ -23,6 +29,88 @@
   </head>
   <body>
     <div id="app"></div>
+
+    <section class="about" aria-labelledby="about-heading">
+      <div class="about-inner">
+        <h1 id="about-heading">Judgment interest calculator for all 50 states and DC</h1>
+        <p>
+          Winning a money judgment is only half the fight. From the day it is
+          entered, the unpaid balance keeps earning interest at a rate set by the
+          statute of the state where you won, and a handful of states compound that
+          interest every year instead of accruing it on the principal alone. Docket
+          Interest does the math for you: pick your state, enter the judgment amount
+          and date, and see the accrued interest and total due update as you type,
+          computed with that state's real rate and its correct simple-or-compound
+          rule. When you are ready to collect, one click turns the same numbers into
+          a printable demand letter.
+        </p>
+
+        <h2>Common questions</h2>
+        <div class="faq">
+          <div class="faq-item">
+            <h3>How do I calculate interest on a judgment?</h3>
+            <p>
+              You need three things: the state's post-judgment interest rate, whether
+              that state accrues simple or compound interest, and the number of days
+              since the judgment was entered. Docket Interest ships the rate and method
+              for every state, counts the days for you, and shows the running total and
+              the per-diem (per-day) amount so you can check any date.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Is this a post-judgment interest calculator by state?</h3>
+            <p>
+              Yes. Each of the 50 states and the District of Columbia has its own entry
+              with the governing statute, the current rate or rate formula, and whether
+              interest is simple or compound. Rates that reset on a schedule (tied to a
+              Treasury yield or the prime rate) are marked as variable with the date they
+              were last verified, so you know which numbers to confirm before a filing.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Can I use it as a prejudgment interest calculator?</h3>
+            <p>
+              The engine computes interest between any two dates at a given rate, so it
+              can estimate prejudgment interest when your state uses the same statutory
+              rate for both periods. Many states set prejudgment interest differently
+              (by cause of action or accrual date), so treat a prejudgment figure as an
+              estimate and confirm the applicable rule for your case.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Does it work for small-claims judgments?</h3>
+            <p>
+              It does. Small-claims and other small money judgments accrue post-judgment
+              interest the same way larger ones do, under the same state statute. A few
+              states set a lower rate for judgments under a dollar threshold; those
+              carve-outs are noted in the rate description for the affected states.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Which states compound judgment interest?</h3>
+            <p>
+              Most states accrue simple interest on the original principal. The ones that
+              compound annually, confirmed against statute or case law, are Colorado,
+              Kentucky, Michigan, Oklahoma, South Carolina, and Texas. Docket Interest
+              applies the correct method automatically once you pick the state.
+            </p>
+          </div>
+        </div>
+
+        <p class="about-disclaimer">
+          Docket Interest is a calculation aid, not legal advice. Statutory rates change
+          and can vary by judgment type. Confirm the rate against current law or with an
+          attorney before relying on a number for a real filing.
+        </p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/ctkrug/docket-interest" rel="noopener">View source on GitHub</a>
+      <span class="site-footer-sep" aria-hidden="true">·</span>
+      <span>More by Charlie Krug → <a href="https://apps.charliekrug.com" rel="noopener">apps.charliekrug.com</a></span>
+    </footer>
+
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
