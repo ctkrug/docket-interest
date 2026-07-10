@@ -20,10 +20,12 @@ function measure(doc, paragraphs, fontSize, usableWidthIn) {
 }
 
 /**
- * Renders demand-letter paragraphs (see src/letter.js) onto a single US
- * Letter page, shrinking the font within a readable range if the content
- * would otherwise overflow, so nothing clips at the page edge or spills
- * onto a second page (BACKLOG 2.3).
+ * Renders demand-letter paragraphs (see src/letter.js) onto a US Letter
+ * page, shrinking the font within a readable range if the content would
+ * otherwise overflow (BACKLOG 2.3). Realistic letters always fit on one
+ * page; pathologically long input (e.g. a pasted-in essay as a name) still
+ * paginates rather than drawing text past the bottom margin, so nothing is
+ * ever silently lost off the printable page.
  */
 export function generateDemandLetterPdf(paragraphs) {
   const doc = new jsPDF({ unit: "in", format: "letter" });
@@ -43,7 +45,18 @@ export function generateDemandLetterPdf(paragraphs) {
   }
 
   doc.setFontSize(chosenFontSize);
+  const pageBottomIn = MARGIN_IN + usableHeightIn;
   let y = MARGIN_IN + chosenLineHeightIn;
+
+  function writeLine(text) {
+    if (y > pageBottomIn) {
+      doc.addPage();
+      y = MARGIN_IN + chosenLineHeightIn;
+    }
+    doc.text(text, MARGIN_IN, y);
+    y += chosenLineHeightIn;
+  }
+
   for (const paragraph of paragraphs) {
     for (const line of paragraph) {
       if (line === "") {
@@ -51,8 +64,7 @@ export function generateDemandLetterPdf(paragraphs) {
         continue;
       }
       for (const wrapped of doc.splitTextToSize(line, usableWidthIn)) {
-        doc.text(wrapped, MARGIN_IN, y);
-        y += chosenLineHeightIn;
+        writeLine(wrapped);
       }
     }
     y += chosenLineHeightIn;
