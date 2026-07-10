@@ -46,10 +46,22 @@ get a statute-correct running total — plus a demand letter ready to print and 
 
 ## Status
 
-Early scaffold — see [`docs/VISION.md`](docs/VISION.md) for the full plan,
-[`docs/BACKLOG.md`](docs/BACKLOG.md) for the build breakdown, and
-[`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) for the citations behind the state interest-rate
-table.
+The core calculator and demand letter are both functionally complete: pick a state, enter a
+judgment amount and date, and the running total, day count, per-diem rate, and statute citation
+update live; the "Generate demand letter" button downloads a single-page PDF built from the same
+numbers. See [`docs/VISION.md`](docs/VISION.md) for the full plan,
+[`docs/BACKLOG.md`](docs/BACKLOG.md) for the build breakdown, [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+for a map of the codebase, and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) for the citations
+behind the state interest-rate table.
+
+## Running locally
+
+```
+npm install
+npm run dev       # local dev server
+npm test          # unit tests
+npm run build     # static build → dist/
+```
 
 ## Legal note
 
