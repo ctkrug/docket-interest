@@ -41,6 +41,31 @@ test("every state code is unique", () => {
   assert.equal(new Set(codes).size, codes.length);
 });
 
+test("every USPS code matches its state name (catches a transposed typo)", () => {
+  const CANONICAL_CODE_BY_NAME = {
+    Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR", California: "CA",
+    Colorado: "CO", Connecticut: "CT", Delaware: "DE", "District of Columbia": "DC",
+    Florida: "FL", Georgia: "GA", Hawaii: "HI", Idaho: "ID", Illinois: "IL",
+    Indiana: "IN", Iowa: "IA", Kansas: "KS", Kentucky: "KY", Louisiana: "LA",
+    Maine: "ME", Maryland: "MD", Massachusetts: "MA", Michigan: "MI",
+    Minnesota: "MN", Mississippi: "MS", Missouri: "MO", Montana: "MT",
+    Nebraska: "NE", Nevada: "NV", "New Hampshire": "NH", "New Jersey": "NJ",
+    "New Mexico": "NM", "New York": "NY", "North Carolina": "NC",
+    "North Dakota": "ND", Ohio: "OH", Oklahoma: "OK", Oregon: "OR",
+    Pennsylvania: "PA", "Rhode Island": "RI", "South Carolina": "SC",
+    "South Dakota": "SD", Tennessee: "TN", Texas: "TX", Utah: "UT",
+    Vermont: "VT", Virginia: "VA", Washington: "WA", "West Virginia": "WV",
+    Wisconsin: "WI", Wyoming: "WY",
+  };
+  for (const state of STATES) {
+    assert.equal(
+      state.code,
+      CANONICAL_CODE_BY_NAME[state.name],
+      `${state.name} has code ${state.code}, expected ${CANONICAL_CODE_BY_NAME[state.name]}`,
+    );
+  }
+});
+
 test("every entry has all required fields populated", () => {
   for (const state of STATES) {
     for (const field of REQUIRED_FIELDS) {
